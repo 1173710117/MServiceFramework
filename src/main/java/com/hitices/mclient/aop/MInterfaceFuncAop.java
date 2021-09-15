@@ -14,26 +14,26 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class MInterfaceFuncAop {
-    @Pointcut("@annotation(com.hitices.mclient.annotation.MInterfaceFunc)")
-    public void interfaceFunction() {
-    }
-
-    @Before("interfaceFunction()")
-    public void interfaceFunctionCall(JoinPoint joinPoint) {
-        if(!MServiceSkeleton.isHaveThread(joinPoint.getTarget().getClass().getName(),
-                joinPoint.getSignature().getName())){
-            MServiceSkeleton.threadData.put(Thread.currentThread(),new MControllerNode(
-                    joinPoint.getTarget().getClass().getName(),
-                    joinPoint.getSignature().getName()));
-        }
-
-    }
-
-    @After("interfaceFunction()")
-    public void interfaceFunctionCallEnd(JoinPoint joinPoint) {
-        if(MServiceSkeleton.threadData.containsKey(Thread.currentThread())){
-            MServiceSkeleton.updateInterface(MServiceSkeleton.threadData.get(Thread.currentThread()));
-            MServiceSkeleton.threadData.remove(Thread.currentThread());
-        }
-    }
+//    @Pointcut("@annotation(com.hitices.mclient.annotation.MInterfaceFunc)")
+//    public void interfaceFunction() {
+//    }
+//
+//    @Before("interfaceFunction()")
+//    public void interfaceFunctionCall(JoinPoint joinPoint) {
+//        if(!MServiceSkeleton.isHaveThread(joinPoint.getTarget().getClass().getName(),
+//                joinPoint.getSignature().getName())){
+//            MServiceSkeleton.threadData.put(Thread.currentThread(),new MControllerNode(
+//                    joinPoint.getTarget().getClass().getName(),
+//                    joinPoint.getSignature().getName()));
+//        }
+//
+//    }
+//
+//    @After("interfaceFunction()")
+//    public void interfaceFunctionCallEnd(JoinPoint joinPoint) {
+//        if(MServiceSkeleton.threadData.containsKey(Thread.currentThread())){
+//            MServiceSkeleton.updateInterface(MServiceSkeleton.threadData.get(Thread.currentThread()));
+//            MServiceSkeleton.threadData.remove(Thread.currentThread());
+//        }
+//    }
 }

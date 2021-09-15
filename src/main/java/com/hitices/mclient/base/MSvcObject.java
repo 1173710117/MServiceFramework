@@ -6,8 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 public abstract class MSvcObject {
@@ -36,10 +34,14 @@ public abstract class MSvcObject {
         return id;
     }
 
-    public void call(String methodName,Object[] args){
+    public Object call(String methodName, Object[] args){
         try {
-            Method method = this.getClass().getMethod(methodName);
-            method.invoke(this,new Object[]{});
+            Class[] classes = new Class[args.length];
+            for (int i = 0; i<args.length; i++){
+                classes[i] = args[i].getClass();
+            }
+            Method method = this.getClass().getMethod(methodName,classes);
+            return method.invoke(this,args);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -47,5 +49,6 @@ public abstract class MSvcObject {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }

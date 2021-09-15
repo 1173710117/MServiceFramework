@@ -1,6 +1,8 @@
 package com.hitices.mclient.core;
 
 
+import com.hitices.common.bean.MResponse;
+import com.hitices.mclient.base.Action;
 import com.hitices.mclient.base.MControllerNode;
 import com.hitices.mclient.base.MSvcNode;
 import com.hitices.mclient.base.MSvcObject;
@@ -15,8 +17,6 @@ import java.util.*;
 public class MServiceSkeleton {
 
     private static MServiceSkeleton instance;
-
-    public static Map<Thread, MControllerNode> threadData = new HashMap<Thread, MControllerNode>();
 
     @Getter
     private Set<MControllerNode> mInterface;
@@ -67,15 +67,15 @@ public class MServiceSkeleton {
 
     //controller
 
-    public static boolean isHaveThread(String ControllerName,String InterfaceName){
-        for (MControllerNode mControllerNode : threadData.values()){
-            if(mControllerNode.getControllerName().equals(ControllerName) &&
-            mControllerNode.getInterfaceName().equals(InterfaceName)){
-                return true;
-            }
-        }
-        return false;
-    }
+//    public static boolean isHaveThread(String ControllerName,String InterfaceName){
+//        for (MControllerNode mControllerNode : threadData.values()){
+//            if(mControllerNode.getControllerName().equals(ControllerName) &&
+//            mControllerNode.getInterfaceName().equals(InterfaceName)){
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     public static void updateInterface(MControllerNode mControllerNode){
         if (MServiceSkeleton.getInstance().getMInterface().contains(mControllerNode)){
@@ -98,13 +98,19 @@ public class MServiceSkeleton {
     /**
      * 完成业务逻辑的调用,输入一个指令，自动执行
      */
-    public void runProcess(String name){
-        String[] process = mApiProcess.get(name);
+    public MResponse runProcess(Action action, Object... args){
+        MResponse response = new MResponse();
+        String[] process = mApiProcess.get(action.getId());
+        int size = action.getTarget() <= 0 || action.getTarget() > process.length? process.length : action.getTarget();
+        log.info(String.valueOf(size));
         if (process!=null){
-            for (int i=0; i<process.length; i++){
-                mSvcObjectMap.get(process[i].split("\\.")[0]).call(process[i].split("\\.")[1], new Object[]{});
+            for (int i=0; i<size; i++){
+                //todo:参数匹配
+                Object temp = mSvcObjectMap.get(process[i].split("\\.")[0]).call(process[i].split("\\.")[1], args);
+                args = new Object[]{temp};
             }
         }
+        return response;
     }
 
 

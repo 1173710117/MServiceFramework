@@ -20,7 +20,6 @@ public abstract class MObject {
                 if(method.getAnnotation(MFuncProcess.class) != null){
                     MServiceSkeleton.getInstance().registerApiProcess(method.getName(),
                             method.getAnnotation(MFuncProcess.class).value());
-                    log.info(String.valueOf(method.getAnnotation(MFuncProcess.class).value()[0]));
                 }
             }
         }

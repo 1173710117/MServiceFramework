@@ -12,20 +12,20 @@ import org.springframework.stereotype.Service;
 public class ServiceA extends MSvcObject {
 
     @MSvcFunc
-    @MNextService(value = {"aTestB","aTestC"})
-    public void aTestA(){
-        log.info("this is ServiceA-testA");
+    public String aTestA(Integer a,Boolean b){
+        log.info("this is ServiceA-testA {} ",a);
+        return "this a result from a";
     }
 
     @MSvcFunc
-    @MNextService(value = {"aTestC"})
-    public void aTestB(){
-        log.info("this is ServiceA-testB");
+    public String aTestB(String a){
+        log.info("this is ServiceA-testB ,{}",a);
+        return "this a result from b";
     }
 
     @MSvcFunc
-    public void aTestC(){
-        log.info("this is ServiceA-testC");
+    public void aTestC(String a){
+        log.info("this is ServiceA-testC ,{}",a);
     }
 
 
