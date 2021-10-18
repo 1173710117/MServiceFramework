@@ -105,7 +105,6 @@ public class MServiceSkeleton {
         log.info(String.valueOf(size));
         if (process!=null){
             for (int i=0; i<size; i++){
-                //todo:参数匹配
                 Object temp = mSvcObjectMap.get(process[i].split("\\.")[0]).call(process[i].split("\\.")[1], args);
                 args = new Object[]{temp};
             }

@@ -12,3 +12,10 @@ eureka:
 spring:
   application:
     name: MServiceFramework
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 80000000
+        readTimeout: 80000000
